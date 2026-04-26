@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import br.edu.ifpb.kuatiaoka.modelo.Item;
 import br.edu.ifpb.kuatiaoka.modelo.Usuario;
+import br.edu.ifpb.kuatiaoka.modelo.Emprestimo;
 
 public class GerenciadorBiblioteca {
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Item> itens = new ArrayList<>();
+    private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 
     public void cadastrarUsuario(Usuario usuario) {
         usuarios.add(usuario);
@@ -67,7 +69,7 @@ public class GerenciadorBiblioteca {
     public ArrayList<Item> buscarItemPorAutor(String autorBuscado) {
         ArrayList<Item> resultado = new ArrayList<>();
         for (Item item : itens) {
-            for (String autor: item.getAutores()) {
+            for (String autor : item.getAutores()) {
                 if (autor.equalsIgnoreCase(autorBuscado)) {
                     resultado.add(item);
                     break;
@@ -124,6 +126,10 @@ public class GerenciadorBiblioteca {
             }
         }
         return null;
+    }
+
+    public void realizarEmprestimo(int idUsuario, int idItem) {
+        buscarUsuarioPorId(idUsuario);
     }
 
 }
