@@ -9,6 +9,15 @@ public class Emprestimo {
     private int idDoEmprestimo;
     private Item itemEmprestado;
     private Usuario usuario;
+    private String status = "EM_ABERTO";
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public LocalDate getDataPrevista() {
         return dataPrevista;

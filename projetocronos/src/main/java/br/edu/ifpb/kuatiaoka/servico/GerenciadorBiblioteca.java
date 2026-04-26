@@ -1,5 +1,6 @@
 package br.edu.ifpb.kuatiaoka.servico;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import br.edu.ifpb.kuatiaoka.modelo.Item;
@@ -29,7 +30,7 @@ public class GerenciadorBiblioteca {
         return resultado;
     }
 
-    public Item buscarItemPorID(int idBuscado) {
+    public Item buscarItemPorId(int idBuscado) {
         for (Item item : itens) {
             if (item.getId() == idBuscado) {
                 return item;
@@ -129,7 +130,35 @@ public class GerenciadorBiblioteca {
     }
 
     public void realizarEmprestimo(int idUsuario, int idItem) {
-        buscarUsuarioPorId(idUsuario);
+        Usuario usuarioAchado = buscarUsuarioPorId(idUsuario);
+        Item itemAchado = buscarItemPorId(idItem);
+        int totalAtivos = contarEmprestimosAtivos(usuarioAchado);
+
+        if (usuarioAchado != null && itemAchado != null && itemAchado.getStatus().equalsIgnoreCase("disponível")
+                && usuarioAchado.isRegularizado()) {
+            if (totalAtivos < usuarioAchado.getLimiteEmprestimos()) {
+                Emprestimo emprestimo = new Emprestimo();
+                emprestimo.setUsuario(usuarioAchado);
+                emprestimo.setItemEmprestado(itemAchado);
+                emprestimo.setIdDoEmprestimo(emprestimos.size() + 1);
+                int dias = usuarioAchado.calcularPrazo(itemAchado);
+                emprestimo.setDataDoEmprestimo(LocalDate.now());
+                emprestimo.setDataPrevista(LocalDate.now().plusDays(dias));
+                itemAchado.setStatus("Emprestado");
+                emprestimos.add(emprestimo);
+            }
+        }
+    }
+
+    public int contarEmprestimosAtivos(Usuario usuario) {
+        int cont = 0;
+        for (Emprestimo emprestimo : emprestimos) {
+            if (usuario.getId() == emprestimo.getUsuario().getId()
+                    && emprestimo.getStatus().equalsIgnoreCase("EM_ABERTO")) {
+                cont = cont + 1;
+            }
+        }
+        return cont;
     }
 
 }

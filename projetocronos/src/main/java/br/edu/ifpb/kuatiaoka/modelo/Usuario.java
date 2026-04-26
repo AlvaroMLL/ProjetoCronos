@@ -53,4 +53,35 @@ public class Usuario {
         this.id = id;
         this.categoria = categoria;
     }
+
+    public int calcularPrazo(Item item) {
+        if (getCategoria().equalsIgnoreCase("aluno de graduação")) {
+            int prazo = 7;
+            return prazo;
+        }
+        if (getCategoria().equalsIgnoreCase("professor") || getCategoria().equalsIgnoreCase("aluno de pós-graduação")) {
+            int prazo = 14;
+            if (item.getTipo().equalsIgnoreCase("dvd") || item.getTipo().equalsIgnoreCase("cd")
+                    || item.getTipo().equalsIgnoreCase("revista")) {
+                prazo = prazo - 7;
+            }
+            return prazo;
+        }
+        if (getCategoria().equalsIgnoreCase("funcionário administrativo")) {
+            int prazo = 10;
+            return prazo;
+        }
+        return 7;
+    }
+
+    public int getLimiteEmprestimos() {
+        if (categoria.equalsIgnoreCase("aluno de graduação")) {
+            return 3;
+        } else if (categoria.equalsIgnoreCase("professor") || categoria.equalsIgnoreCase("aluno de pós-graudação")) {
+            return 5;
+        } else if (categoria.equalsIgnoreCase("funcionário administrativo")) {
+            return 2;
+        }
+        return 0;
+    }
 }
