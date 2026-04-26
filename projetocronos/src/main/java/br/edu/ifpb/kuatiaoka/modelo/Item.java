@@ -3,7 +3,7 @@ package br.edu.ifpb.kuatiaoka.modelo;
 public class Item {
     private String isbn;
     private String titulo;
-    private String autor[];
+    private String[] autores;
     private String editora;
     private int ano;
     private String edicao;
@@ -30,8 +30,8 @@ public class Item {
         return ano;
     }
 
-    public String[] getAutor() {
-        return autor;
+    public String[] getAutores() {
+        return autores;
     }
 
     public String getEdicao() {
@@ -106,8 +106,8 @@ public class Item {
         this.ano = ano;
     }
 
-    public void setAutor(String[] autor) {
-        this.autor = autor;
+    public void setAutor(String[] autores) {
+        this.autores = autores;
     }
 
     public void setEdicao(String edicao) {

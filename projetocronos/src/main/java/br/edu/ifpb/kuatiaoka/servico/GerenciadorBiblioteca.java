@@ -36,36 +36,85 @@ public class GerenciadorBiblioteca {
         return null;
     }
 
-    public Item buscarItemPorIsbn(String isbn) {
-
+    public Item buscarItemPorIsbn(String isbnBuscado) {
+        for (Item item : itens) {
+            if (item.getIsbn() == isbnBuscado) {
+                return item;
+            }
+        }
+        return null;
     }
 
-    public Item buscarItemPorIssn(String titulo) {
-
+    public Item buscarItemPorIssn(String issnBuscado) {
+        for (Item item : itens) {
+            if (item.getIssn() == issnBuscado) {
+                return item;
+            }
+        }
+        return null;
     }
 
-    public ArrayList<Item> buscarItemPorTipo(String tipo) {
-
+    public ArrayList<Item> buscarItemPorTipo(String tipoBuscado) {
+        ArrayList<Item> resultado = new ArrayList<>();
+        for (Item item : itens) {
+            if (item.getTipo().equalsIgnoreCase(tipoBuscado)) {
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
-    public ArrayList<Item> buscarItemPorAutor(String autor) {
-
+    public ArrayList<Item> buscarItemPorAutor(String autorBuscado) {
+        ArrayList<Item> resultado = new ArrayList<>();
+        for (Item item : itens) {
+            for (String autor: item.getAutores()) {
+                if (autor.equalsIgnoreCase(autorBuscado)) {
+                    resultado.add(item);
+                    break;
+                }
+            }
+        }
+        return resultado;
     }
 
-    public ArrayList<Item> buscarItemPorStatus(String status) {
-
+    public ArrayList<Item> buscarItemPorStatus(String statusBuscado) {
+        ArrayList<Item> resultado = new ArrayList<>();
+        for (Item item : itens) {
+            if (item.getStatus().equalsIgnoreCase(statusBuscado)) {
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
-    public ArrayList<Item> buscarItemPorEditora(String editora) {
-
+    public ArrayList<Item> buscarItemPorEditora(String editoraBuscada) {
+        ArrayList<Item> resultado = new ArrayList<>();
+        for (Item item : itens) {
+            if (item.getTitulo().equalsIgnoreCase(editoraBuscada)) {
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
-    public ArrayList<Item> buscarItemPorGenero(String genero) {
-
+    public ArrayList<Item> buscarItemPorGenero(String generoBuscado) {
+        ArrayList<Item> resultado = new ArrayList<>();
+        for (Item item : itens) {
+            if (item.getGeneroLiterario().equalsIgnoreCase(generoBuscado)) {
+                resultado.add(item);
+            }
+        }
+        return resultado;
     }
 
-    public ArrayList<Usuario> buscarUsuarioPorNome(String nome) {
-
+    public ArrayList<Usuario> buscarUsuarioPorNome(String nomeBuscado) {
+        ArrayList<Usuario> resultado = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equalsIgnoreCase(nomeBuscado)) {
+                resultado.add(usuario);
+            }
+        }
+        return resultado;
     }
 
     public Usuario buscarUsuarioPorId(int idBuscado) {
