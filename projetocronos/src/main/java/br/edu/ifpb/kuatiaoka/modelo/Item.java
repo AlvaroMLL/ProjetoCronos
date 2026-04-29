@@ -20,7 +20,16 @@ public class Item {
     private String duracao;
     private String classificacaoIndicativa;
     private String artista;
-    private String listaDeFaixas;
+    private String[] listaDeFaixas;
+    private String volume;
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
 
     public String getIsbn() {
         return isbn;
@@ -98,7 +107,7 @@ public class Item {
         return duracao;
     }
 
-    public String getListaDeFaixas() {
+    public String[] getListaDeFaixas() {
         return listaDeFaixas;
     }
 
@@ -178,12 +187,33 @@ public class Item {
         this.duracao = duracao;
     }
 
-    public void setListaDeFaixas(String listaDeFaixas) {
+    public void setListaDeFaixas(String[] listaDeFaixas) {
         this.listaDeFaixas = listaDeFaixas;
     }
 
-    public Item(String titulo, int id) {
-        this.titulo = titulo;
+    public Item(String isbn, int id, String titulo, String tipo, String[] autores, String editora, int ano,
+            String edicao, String generoLiterario, int numeroDePaginas, String sinopse,
+            String issn, String volume, String numero, String dataDePublicacao, String diretor,
+            String duracao, String classificacaoIndicativa, String artista, String[] listaDeFaixas) {
+        this.isbn = isbn;
         this.id = id;
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.autores = autores;
+        this.editora = editora;
+        this.ano = ano;
+        this.edicao = edicao;
+        this.generoLiterario = generoLiterario;
+        this.numeroDePaginas = numeroDePaginas;
+        this.sinopse = sinopse;
+        this.issn = issn;
+        this.volume = volume;
+        this.numero = numero;
+        this.dataDePublicacao = dataDePublicacao;
+        this.diretor = diretor;
+        this.duracao = duracao;
+        this.classificacaoIndicativa = classificacaoIndicativa;
+        this.artista = artista;
+        this.listaDeFaixas = listaDeFaixas;
     }
 }

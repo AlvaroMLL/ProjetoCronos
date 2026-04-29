@@ -8,9 +8,35 @@ import br.edu.ifpb.kuatiaoka.modelo.Usuario;
 import br.edu.ifpb.kuatiaoka.modelo.Emprestimo;
 
 public class GerenciadorBiblioteca {
+    private int proximoIdUsuario = 1;
+    private int proximoIdItem = 1;
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     private ArrayList<Item> itens = new ArrayList<>();
     private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+
+    public int getProximoIdItem() {
+        return proximoIdItem;
+    }
+
+    public void setProximoIdItem(int proximoIdItem) {
+        this.proximoIdItem = proximoIdItem;
+    }
+
+    public void adicionarUsuario(Usuario usuario) {
+        this.usuarios.add(usuario);
+    }
+
+    public void adicionarItem(Item item) {
+        this.itens.add(item);
+    }
+
+    public int getProximoIdUsuario() {
+        return proximoIdUsuario;
+    }
+
+    public void setProximoIdUsuario(int proximoIdUsuario) {
+        this.proximoIdUsuario = proximoIdUsuario;
+    }
 
     public void cadastrarUsuario(Usuario usuario) {
         usuarios.add(usuario);
@@ -134,7 +160,7 @@ public class GerenciadorBiblioteca {
         Item itemAchado = buscarItemPorId(idItem);
         int totalAtivos = contarEmprestimosAtivos(usuarioAchado);
 
-        if (usuarioAchado != null && itemAchado != null && itemAchado.getStatus().equalsIgnoreCase("disponível")
+        if (usuarioAchado != null && itemAchado != null && itemAchado.getStatus().equalsIgnoreCase("Disponível")
                 && usuarioAchado.isRegularizado()) {
             if (totalAtivos < usuarioAchado.getLimiteEmprestimos()) {
                 Emprestimo emprestimo = new Emprestimo();
