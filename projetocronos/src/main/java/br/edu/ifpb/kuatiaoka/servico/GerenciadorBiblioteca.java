@@ -161,4 +161,40 @@ public class GerenciadorBiblioteca {
         return cont;
     }
 
+    public void registrarDevolucao(int idItemDevolvido) {
+        for (Emprestimo emprestimo : emprestimos) {
+            if (idItemDevolvido == emprestimo.getItemEmprestado().getId()
+                    && emprestimo.getStatus().equalsIgnoreCase("EM_ABERTO")) {
+                emprestimo.setDataDevolucao(LocalDate.now());
+                emprestimo.setStatus("FINALIZADO");
+                emprestimo.getItemEmprestado().setStatus("Disponível");
+                verificarMulta(emprestimo);
+                System.out.println(
+                        "Devolução do item " + emprestimo.getItemEmprestado().getTitulo() + " realizada com sucesso!");
+                return;
+            }
+        }
+    }
+
+    // Nesse metodo eu transformei LocalDate em um long usando .toEpochDay()
+    // (pesquisei LocalDate javadoc no google) para conseguir achar o numero de dias
+    // de atraso e calcular a multa.
+    public void verificarMulta(Emprestimo emprestimo) {
+        if (emprestimo.getDataDevolucao().isAfter(emprestimo.getDataPrevista())) {
+            long diasAtraso = emprestimo.getDataDevolucao().toEpochDay() - emprestimo.getDataPrevista().toEpochDay();
+            double valorPorDia = 0;
+
+            if (emprestimo.getUsuario().getCategoria().equalsIgnoreCase("aluno de graduação")) {
+                valorPorDia = 2.00;
+            } else if (emprestimo.getUsuario().getCategoria().equalsIgnoreCase("professor")
+                    || emprestimo.getUsuario().getCategoria().equalsIgnoreCase("aluno de pós-graudação")) {
+                valorPorDia = 1.00;
+            } else {
+                valorPorDia = 1.50;
+            }
+            double multaTotal = diasAtraso * valorPorDia;
+            emprestimo.getUsuario().setRegularizado(false);
+            System.out.println("Multa de R$ " + multaTotal + " aplicada por " + diasAtraso + " dias de atraso.");
+        }
+    }
 }
