@@ -23,7 +23,7 @@ public class Main {
             System.out.println("[3] Operações");
             System.out.println("[4] Consultas");
             System.out.println("[5] Sair");
-            System.out.print("\nEscolha um opção: ");
+            System.out.print("\nEscolha uma opção: ");
             opcao = in.nextLine();
 
             switch (opcao) {
@@ -34,7 +34,7 @@ public class Main {
                     System.out.println("[3] Cadastrar CD");
                     System.out.println("[4] Cadastrar DVD");
                     System.out.println("[5] Voltar");
-                    System.out.println("\nEscolha uma opção: ");
+                    System.out.print("\nEscolha uma opção: ");
                     String subAcao = in.nextLine();
                     switch (subAcao) {
                         case "1":
@@ -177,7 +177,7 @@ public class Main {
                             String diretor = in.nextLine();
                             System.out.print("Digite a duração em minutos: ");
                             String duracao = in.nextLine();
-                            System.out.println("Digite a classificação indicativa: ");
+                            System.out.print("Digite a classificação indicativa: ");
                             String classificacaoIndicativa = in.nextLine();
                             int idParaDvd = gerenciador.getProximoIdItem();
 
@@ -207,7 +207,7 @@ public class Main {
                     System.out.println("--- Gerenciar Usuários ---");
                     System.out.println("[1] Cadastrar novo usuário");
                     System.out.println("[2] Voltar");
-                    System.out.println("\nEscolha uma opção: ");
+                    System.out.print("\nEscolha uma opção: ");
                     String subOpcao = in.nextLine();
                     switch (subOpcao) {
                         case "1":
@@ -259,10 +259,12 @@ public class Main {
                     System.out.println("[1] Realizar Empréstimo");
                     System.out.println("[2] Registrar Devolução");
                     System.out.println("[3] Voltar");
-                    System.out.println("\nEscolha uma opção: ");
+                    System.out.print("\nEscolha uma opção: ");
                     String op = in.nextLine();
                     switch (op) {
                         case "1":
+                            System.out.println("\n--- Itens Disponíveis ---");
+                            gerenciador.listarItensDisponiveis();
                             System.out.print("Digite o ID do usuário: ");
                             int idUsuario = Integer.parseInt(in.nextLine());
 
@@ -293,7 +295,7 @@ public class Main {
                     System.out.println("[2] Usuários");
                     System.out.println("[3] Empréstimos");
                     System.out.println("[4] Voltar");
-                    System.out.println("\nEscolha uma opção: ");
+                    System.out.print("\nEscolha uma opção: ");
                     String subConsulta = in.nextLine();
 
                     switch (subConsulta) {
@@ -305,7 +307,7 @@ public class Main {
                             System.out.println("[4] Por editora: ");
                             System.out.println("[5] Por tipo: ");
                             System.out.println("[6] Voltar ");
-                            System.out.println("\nEscolha uma opção: ");
+                            System.out.print("\nEscolha uma opção: ");
                             String subConsultaItens = in.nextLine();
                             switch (subConsultaItens) {
                                 case "1":
@@ -361,7 +363,7 @@ public class Main {
                                     }
                                     break;
                                 case "5":
-                                    System.out.println("Qual tipo deseja filtrar? (Livro, CD, DVD, Revista)");
+                                    System.out.print("Qual tipo deseja filtrar? (Livro, CD, DVD, Revista)");
                                     String tipo = in.nextLine();
                                     ArrayList<Item> porTipo = gerenciador.buscarItemPorTipo(tipo);
 
@@ -418,42 +420,6 @@ public class Main {
                                     }
                                     break;
                                 case "3":
-                                    System.out.println("--- CONSULTA DE EMPRÉSTIMOS ---");
-                                    System.out.println("[1] Em aberto");
-                                    System.out.println("[2] Em atraso");
-                                    System.out.println("[3] Por usuário");
-                                    System.out.print("Escolha uma opção: ");
-                                    String escolha = in.nextLine();
-
-                                    if (escolha.equals("1")) {
-                                        ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosEmAberto();
-                                        for (Emprestimo e : lista) {
-                                            System.out.println("Item: " + e.getItemEmprestado().getTitulo()
-                                                    + " | Usuário: " + e.getUsuario().getNome()
-                                                    + " | Data prevista: " + e.getDataPrevista());
-                                        }
-                                    }
-
-                                    if (escolha.equals("2")) {
-                                        ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosAtrasados();
-                                        for (Emprestimo e : lista) {
-                                            System.out.println("ATRASADO -> Item: " + e.getItemEmprestado().getTitulo()
-                                                    + " | Usuário: " + e.getUsuario().getNome());
-                                        }
-                                    }
-
-                                    if (escolha.equals("3")) {
-                                        System.out.print("ID do usuário: ");
-                                        int idUser = Integer.parseInt(in.nextLine());
-
-                                        ArrayList<Emprestimo> lista = gerenciador.listarPorUsuario(idUser);
-                                        for (Emprestimo e : lista) {
-                                            System.out.println("Item: " + e.getItemEmprestado().getTitulo()
-                                                    + " | Status: " + e.getStatus());
-                                        }
-                                    }
-                                    break;
-                                case "4":
                                     break;
                                 default:
                                     System.out.println("Digite um número entre 1 e 4");
@@ -461,6 +427,40 @@ public class Main {
                             }
                             break;
                         case "3":
+                            System.out.println("--- Consultas De Empréstimos ---");
+                            System.out.println("[1] Em aberto");
+                            System.out.println("[2] Em atraso");
+                            System.out.println("[3] Por usuário");
+                            System.out.print("Escolha uma opção: ");
+                            String escolha = in.nextLine();
+
+                            if (escolha.equals("1")) {
+                                ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosEmAberto();
+                                for (Emprestimo e : lista) {
+                                    System.out.println("Item: " + e.getItemEmprestado().getTitulo()
+                                            + " | Usuário: " + e.getUsuario().getNome()
+                                            + " | Data prevista: " + e.getDataPrevista());
+                                }
+                            }
+
+                            if (escolha.equals("2")) {
+                                ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosAtrasados();
+                                for (Emprestimo e : lista) {
+                                    System.out.println("ATRASADO -> Item: " + e.getItemEmprestado().getTitulo()
+                                            + " | Usuário: " + e.getUsuario().getNome());
+                                }
+                            }
+
+                            if (escolha.equals("3")) {
+                                System.out.print("ID do usuário: ");
+                                int idUser = Integer.parseInt(in.nextLine());
+
+                                ArrayList<Emprestimo> lista = gerenciador.listarPorUsuario(idUser);
+                                for (Emprestimo e : lista) {
+                                    System.out.println("Item: " + e.getItemEmprestado().getTitulo()
+                                            + " | Status: " + e.getStatus());
+                                }
+                            }
                             break;
                         default:
                             System.out.println("Digite um número entre 1 e 3");

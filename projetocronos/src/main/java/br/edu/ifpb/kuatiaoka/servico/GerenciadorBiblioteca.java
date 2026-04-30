@@ -288,4 +288,13 @@ public class GerenciadorBiblioteca {
         }
         return lista;
     }
+
+    public void listarItensDisponiveis() {
+        for (Item item : itens) {
+            if (item.getStatus().equalsIgnoreCase("Disponível")) {
+                System.out.println("ID: " + item.getId() + " | "
+                        + item.getTipo() + ": " + item.getTitulo());
+            }
+        }
+    }
 }
