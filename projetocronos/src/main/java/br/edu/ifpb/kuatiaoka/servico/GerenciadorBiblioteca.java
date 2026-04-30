@@ -42,14 +42,6 @@ public class GerenciadorBiblioteca {
         this.proximoIdUsuario = proximoIdUsuario;
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-    }
-
-    public void cadastrarItem(Item item) {
-        itens.add(item);
-    }
-
     public ArrayList<Item> buscarItemPorTitulo(String tituloBuscado) {
         ArrayList<Item> resultado = new ArrayList<>();
         for (Item item : itens) {
@@ -166,21 +158,42 @@ public class GerenciadorBiblioteca {
     public void realizarEmprestimo(int idUsuario, int idItem) {
         Usuario usuarioAchado = buscarUsuarioPorId(idUsuario);
         Item itemAchado = buscarItemPorId(idItem);
+
+        if (usuarioAchado == null || itemAchado == null) {
+            System.out.println("Erro: usuário ou item não encontrado.");
+            return;
+        }
+        if (temEmprestimoEmAtraso(usuarioAchado)) {
+            System.out.println("Erro: usuário possui empréstimos em atraso.");
+            return;
+        }
+
         int totalAtivos = contarEmprestimosAtivos(usuarioAchado);
 
-        if (usuarioAchado != null && itemAchado != null && itemAchado.getStatus().equalsIgnoreCase("Disponível")
+        if (itemAchado.getStatus().equalsIgnoreCase("Disponível")
                 && usuarioAchado.isRegularizado()) {
+
             if (totalAtivos < usuarioAchado.getLimiteEmprestimos()) {
                 Emprestimo emprestimo = new Emprestimo();
                 emprestimo.setUsuario(usuarioAchado);
                 emprestimo.setItemEmprestado(itemAchado);
                 emprestimo.setIdDoEmprestimo(emprestimos.size() + 1);
+
                 int dias = usuarioAchado.calcularPrazo(itemAchado);
+
                 emprestimo.setDataDoEmprestimo(LocalDate.now());
                 emprestimo.setDataPrevista(LocalDate.now().plusDays(dias));
+
                 itemAchado.setStatus("Emprestado");
                 emprestimos.add(emprestimo);
+
+                System.out.println("Empréstimo realizado com sucesso!");
+            } else {
+                System.out.println("Erro: limite de empréstimos atingido.");
             }
+
+        } else {
+            System.out.println("Erro: item indisponível ou usuário irregular.");
         }
     }
 
@@ -208,6 +221,7 @@ public class GerenciadorBiblioteca {
                 return;
             }
         }
+        System.out.println("Erro: item não encontrado ou não está emprestado.");
     }
 
     // Nesse metodo eu transformei LocalDate em um long usando .toEpochDay()
@@ -221,14 +235,57 @@ public class GerenciadorBiblioteca {
             if (emprestimo.getUsuario().getCategoria().equalsIgnoreCase("aluno de graduação")) {
                 valorPorDia = 2.00;
             } else if (emprestimo.getUsuario().getCategoria().equalsIgnoreCase("professor")
-                    || emprestimo.getUsuario().getCategoria().equalsIgnoreCase("aluno de pós-graudação")) {
+                    || emprestimo.getUsuario().getCategoria().equalsIgnoreCase("aluno de pós-graduação")) {
                 valorPorDia = 1.00;
             } else {
                 valorPorDia = 1.50;
             }
             double multaTotal = diasAtraso * valorPorDia;
+            emprestimo.getUsuario().setMultaPendente(multaTotal);
             emprestimo.getUsuario().setRegularizado(false);
             System.out.println("Multa de R$ " + multaTotal + " aplicada por " + diasAtraso + " dias de atraso.");
         }
+    }
+
+    public boolean temEmprestimoEmAtraso(Usuario usuario) {
+        for (Emprestimo e : emprestimos) {
+            if (e.getUsuario().getId() == usuario.getId()
+                    && e.getStatus().equalsIgnoreCase("EM_ABERTO")
+                    && e.getDataPrevista().isBefore(LocalDate.now())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Emprestimo> listarEmprestimosEmAberto() {
+        ArrayList<Emprestimo> lista = new ArrayList<>();
+        for (Emprestimo e : emprestimos) {
+            if (e.getStatus().equalsIgnoreCase("EM_ABERTO")) {
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
+
+    public ArrayList<Emprestimo> listarEmprestimosAtrasados() {
+        ArrayList<Emprestimo> lista = new ArrayList<>();
+        for (Emprestimo e : emprestimos) {
+            if (e.getStatus().equalsIgnoreCase("EM_ABERTO")
+                    && e.getDataPrevista().isBefore(LocalDate.now())) {
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
+
+    public ArrayList<Emprestimo> listarPorUsuario(int idUsuario) {
+        ArrayList<Emprestimo> lista = new ArrayList<>();
+        for (Emprestimo e : emprestimos) {
+            if (e.getUsuario().getId() == idUsuario) {
+                lista.add(e);
+            }
+        }
+        return lista;
     }
 }

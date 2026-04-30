@@ -6,6 +6,15 @@ public class Usuario {
     private boolean regularizado = true;
     private String email;
     private int id;
+    private double multaPendente = 0;
+
+    public double getMultaPendente() {
+        return multaPendente;
+    }
+
+    public void setMultaPendente(double multaPendente) {
+        this.multaPendente = multaPendente;
+    }
 
     public String getCategoria() {
         return categoria;
@@ -77,7 +86,7 @@ public class Usuario {
     public int getLimiteEmprestimos() {
         if (categoria.equalsIgnoreCase("aluno de graduação")) {
             return 3;
-        } else if (categoria.equalsIgnoreCase("professor") || categoria.equalsIgnoreCase("aluno de pós-graudação")) {
+        } else if (categoria.equalsIgnoreCase("professor") || categoria.equalsIgnoreCase("aluno de pós-graduação")) {
             return 5;
         } else if (categoria.equalsIgnoreCase("funcionário administrativo")) {
             return 2;

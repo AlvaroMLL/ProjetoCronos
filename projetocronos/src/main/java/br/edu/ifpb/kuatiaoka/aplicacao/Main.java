@@ -3,6 +3,7 @@ package br.edu.ifpb.kuatiaoka.aplicacao;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import br.edu.ifpb.kuatiaoka.modelo.Emprestimo;
 import br.edu.ifpb.kuatiaoka.modelo.Item;
 import br.edu.ifpb.kuatiaoka.modelo.Usuario;
 import br.edu.ifpb.kuatiaoka.servico.GerenciadorBiblioteca;
@@ -226,7 +227,7 @@ public class Main {
                                     categoriaFinal = "aluno de graduação";
                                     break;
                                 } else if (categoria.equals("2")) {
-                                    categoriaFinal = "Professor";
+                                    categoriaFinal = "professor";
                                     break;
                                 } else if (categoria.equals("3")) {
                                     categoriaFinal = "aluno de pós-graduação";
@@ -254,12 +255,44 @@ public class Main {
                     }
                     break;
                 case "3":
+                    System.out.println("--- Operações ---");
+                    System.out.println("[1] Realizar Empréstimo");
+                    System.out.println("[2] Registrar Devolução");
+                    System.out.println("[3] Voltar");
+                    System.out.println("\nEscolha uma opção: ");
+                    String op = in.nextLine();
+                    switch (op) {
+                        case "1":
+                            System.out.print("Digite o ID do usuário: ");
+                            int idUsuario = Integer.parseInt(in.nextLine());
+
+                            System.out.print("Digite o ID do item: ");
+                            int idItem = Integer.parseInt(in.nextLine());
+
+                            gerenciador.realizarEmprestimo(idUsuario, idItem);
+                            System.out.println("Operação concluída.");
+                            break;
+
+                        case "2":
+                            System.out.print("ID do item: ");
+                            int idItemDevolucao = Integer.parseInt(in.nextLine());
+
+                            gerenciador.registrarDevolucao(idItemDevolucao);
+                            break;
+
+                        case "3":
+                            break;
+
+                        default:
+                            System.out.println("Digite um número entre 1 e 3");
+                    }
                     break;
                 case "4":
                     System.out.println("--- Consultas ---");
                     System.out.println("[1] Itens");
                     System.out.println("[2] Usuários");
-                    System.out.println("[3] Voltar");
+                    System.out.println("[3] Empréstimos");
+                    System.out.println("[4] Voltar");
                     System.out.println("\nEscolha uma opção: ");
                     String subConsulta = in.nextLine();
 
@@ -385,7 +418,45 @@ public class Main {
                                     }
                                     break;
                                 case "3":
+                                    System.out.println("--- CONSULTA DE EMPRÉSTIMOS ---");
+                                    System.out.println("[1] Em aberto");
+                                    System.out.println("[2] Em atraso");
+                                    System.out.println("[3] Por usuário");
+                                    System.out.print("Escolha uma opção: ");
+                                    String escolha = in.nextLine();
+
+                                    if (escolha.equals("1")) {
+                                        ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosEmAberto();
+                                        for (Emprestimo e : lista) {
+                                            System.out.println("Item: " + e.getItemEmprestado().getTitulo()
+                                                    + " | Usuário: " + e.getUsuario().getNome()
+                                                    + " | Data prevista: " + e.getDataPrevista());
+                                        }
+                                    }
+
+                                    if (escolha.equals("2")) {
+                                        ArrayList<Emprestimo> lista = gerenciador.listarEmprestimosAtrasados();
+                                        for (Emprestimo e : lista) {
+                                            System.out.println("ATRASADO -> Item: " + e.getItemEmprestado().getTitulo()
+                                                    + " | Usuário: " + e.getUsuario().getNome());
+                                        }
+                                    }
+
+                                    if (escolha.equals("3")) {
+                                        System.out.print("ID do usuário: ");
+                                        int idUser = Integer.parseInt(in.nextLine());
+
+                                        ArrayList<Emprestimo> lista = gerenciador.listarPorUsuario(idUser);
+                                        for (Emprestimo e : lista) {
+                                            System.out.println("Item: " + e.getItemEmprestado().getTitulo()
+                                                    + " | Status: " + e.getStatus());
+                                        }
+                                    }
+                                    break;
+                                case "4":
+                                    break;
                                 default:
+                                    System.out.println("Digite um número entre 1 e 4");
                                     break;
                             }
                             break;
@@ -405,5 +476,6 @@ public class Main {
                     break;
             }
         }
+        in.close();
     }
 }
