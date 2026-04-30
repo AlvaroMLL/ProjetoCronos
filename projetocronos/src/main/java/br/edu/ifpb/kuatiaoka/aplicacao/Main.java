@@ -1,5 +1,6 @@
 package br.edu.ifpb.kuatiaoka.aplicacao;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import br.edu.ifpb.kuatiaoka.modelo.Item;
@@ -192,7 +193,7 @@ public class Main {
                             gerenciador.adicionarItem(novoDvd);
                             System.out.println("O id para o DVD é: " + idParaDvd);
                             gerenciador.setProximoIdItem(idParaDvd + 1);
-                            System.out.println("\nDVD: " + tituloDvd + " id: " + idParaDvd);     
+                            System.out.println("\nDVD: " + tituloDvd + " id: " + idParaDvd);
                             break;
                         case "5":
                             break;
@@ -255,6 +256,146 @@ public class Main {
                 case "3":
                     break;
                 case "4":
+                    System.out.println("--- Consultas ---");
+                    System.out.println("[1] Itens");
+                    System.out.println("[2] Usuários");
+                    System.out.println("[3] Voltar");
+                    System.out.println("\nEscolha uma opção: ");
+                    String subConsulta = in.nextLine();
+
+                    switch (subConsulta) {
+                        case "1":
+                            System.out.println("--- Consultas de itens ---");
+                            System.out.println("[1] Mostrar todos");
+                            System.out.println("[2] Por título");
+                            System.out.println("[3] Por autor(es)");
+                            System.out.println("[4] Por editora: ");
+                            System.out.println("[5] Por tipo: ");
+                            System.out.println("[6] Voltar ");
+                            System.out.println("\nEscolha uma opção: ");
+                            String subConsultaItens = in.nextLine();
+                            switch (subConsultaItens) {
+                                case "1":
+                                    ArrayList<Item> lista = gerenciador.getItens();
+                                    if (lista.isEmpty()) {
+                                        System.out.println("Acervo vazio.");
+                                    } else {
+                                        for (Item i : lista) {
+                                            i.exibirFichaTecnica();
+                                        }
+                                    }
+                                    break;
+                                case "2":
+                                    System.out.print("Título: ");
+                                    String t = in.nextLine();
+                                    ArrayList<Item> busca = gerenciador.buscarItemPorTitulo(t);
+
+                                    if (busca.isEmpty()) {
+                                        System.out.println("Nada encontrado.");
+                                    } else {
+                                        for (Item i : busca) {
+                                            i.exibirFichaTecnica();
+                                        }
+                                    }
+                                    break;
+                                case "3":
+                                    System.out.print("Digite o nome do autor: ");
+                                    String autor = in.nextLine();
+                                    ArrayList<Item> porAutor = gerenciador.buscarItemPorAutor(autor);
+
+                                    if (porAutor.isEmpty()) {
+                                        System.out.println("\n[!] Nenhum livro encontrado para o autor: " + autor);
+                                    } else {
+                                        System.out.println("\n--- Livros do Autor: " + autor + " ---");
+                                        for (Item i : porAutor) {
+                                            i.exibirFichaTecnica();
+                                        }
+                                    }
+                                    break;
+
+                                case "4":
+                                    System.out.print("Digite o nome da editora: ");
+                                    String editora = in.nextLine();
+                                    ArrayList<Item> porEditora = gerenciador.buscarItemPorEditora(editora);
+
+                                    if (porEditora.isEmpty()) {
+                                        System.out.println("\n[!] Nenhum item encontrado para a editora: " + editora);
+                                    } else {
+                                        System.out.println("\n--- Itens da Editora: " + editora + " ---");
+                                        for (Item i : porEditora) {
+                                            i.exibirFichaTecnica();
+                                        }
+                                    }
+                                    break;
+                                case "5":
+                                    System.out.println("Qual tipo deseja filtrar? (Livro, CD, DVD, Revista)");
+                                    String tipo = in.nextLine();
+                                    ArrayList<Item> porTipo = gerenciador.buscarItemPorTipo(tipo);
+
+                                    if (porTipo.isEmpty()) {
+                                        System.out.println("\n[!] Nenhum item do tipo '" + tipo + "' encontrado.");
+                                    } else {
+                                        System.out.println("\n--- Listando todos os(as) " + tipo + "s ---");
+                                        for (Item i : porTipo) {
+                                            i.exibirFichaTecnica();
+                                        }
+                                    }
+                                    break;
+                                case "6":
+                                    break;
+                                default:
+                                    System.out.println("Digite um número entre 1 e 6");
+                                    break;
+                            }
+                            break;
+                        case "2":
+                            System.out.println("--- Consultas de Usuários ---");
+                            System.out.println("[1] Por nome");
+                            System.out.println("[2] Por ID");
+                            System.out.println("[3] Voltar");
+                            System.out.println("\nEscolha uma opção: ");
+                            String subConsultaUsuarios = in.nextLine();
+                            switch (subConsultaUsuarios) {
+                                case "1":
+                                    System.out.print("Digite o nome do usuário: ");
+                                    String nomeBuscado = in.nextLine();
+                                    ArrayList<Usuario> resultados = gerenciador.buscarUsuarioPorNome(nomeBuscado);
+                                    if (resultados.isEmpty()) {
+                                        System.out.println(("\nNenhum usuário encontrado com o nome: " + nomeBuscado));
+                                    } else {
+                                        System.out.println("\n--- Usuarios Encontrados ---");
+                                        for (Usuario u : resultados) {
+                                            System.out.println("ID: " + u.getId() + " | Nome: " + u.getNome()
+                                                    + " | Categoria: " + u.getCategoria() + " | Regularizado: "
+                                                    + u.isRegularizado());
+                                        }
+                                    }
+                                    break;
+                                case "2":
+                                    System.out.print("Digite o ID do usuário: ");
+                                    int idBuscado = Integer.parseInt((in.nextLine()));
+                                    Usuario u = gerenciador.buscarUsuarioPorId(idBuscado);
+                                    if (u == null) {
+                                        System.out.println("Usuário com o ID: " + idBuscado + " não existe.");
+                                    } else {
+                                        System.out.println("\n--- Usuário Encontrado ---");
+                                        System.out.println(
+                                                "ID: " + u.getId() + " | Nome: " + u.getNome() + " | Categoria: "
+                                                        + u.getCategoria() + " | Regularizado: " + u.isRegularizado());
+                                    }
+                                    break;
+                                case "3":
+                                default:
+                                    break;
+                            }
+                            break;
+                        case "3":
+                            break;
+                        default:
+                            System.out.println("Digite um número entre 1 e 3");
+                            break;
+                    }
+
                     break;
                 case "5":
                     break;

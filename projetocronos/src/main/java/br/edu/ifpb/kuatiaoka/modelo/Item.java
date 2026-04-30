@@ -216,4 +216,24 @@ public class Item {
         this.artista = artista;
         this.listaDeFaixas = listaDeFaixas;
     }
+
+    public void exibirFichaTecnica() {
+        System.out.println("\nID: " + this.id + " | [" + this.tipo + "] " + this.titulo);
+        System.out.println("Status: " + (this.status));
+
+        if (this.tipo.equalsIgnoreCase("Livro") && this.autores != null) {
+            System.out.println("Autores: " + String.join(", ", this.autores));
+            System.out.println("Editora: " + this.editora + " | Gênero: " + this.generoLiterario);
+        } else if (this.tipo.equalsIgnoreCase("Revista")) {
+            System.out.println("ISSN: " + this.issn + " | Volume: " + this.volume + " | Edição: " + this.edicao);
+        } else if (this.tipo.equalsIgnoreCase("CD")) {
+            System.out.println("Artista: " + this.artista);
+            if (this.listaDeFaixas != null) {
+                System.out.println("Faixas: " + String.join(" / ", this.listaDeFaixas));
+            }
+        } else if (this.tipo.equalsIgnoreCase("DVD")) {
+            System.out.println("Diretor: " + this.diretor + " | Duração: " + this.duracao + " min");
+            System.out.println("Classificação: " + this.classificacaoIndicativa);
+        }
+    }
 }

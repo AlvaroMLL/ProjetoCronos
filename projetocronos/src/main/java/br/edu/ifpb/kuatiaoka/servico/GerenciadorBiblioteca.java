@@ -14,6 +14,10 @@ public class GerenciadorBiblioteca {
     private ArrayList<Item> itens = new ArrayList<>();
     private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 
+    public ArrayList<Item> getItens() {
+        return this.itens;
+    }
+
     public int getProximoIdItem() {
         return proximoIdItem;
     }
@@ -67,7 +71,7 @@ public class GerenciadorBiblioteca {
 
     public Item buscarItemPorIsbn(String isbnBuscado) {
         for (Item item : itens) {
-            if (item.getIsbn() == isbnBuscado) {
+            if (item.getIsbn().equalsIgnoreCase(isbnBuscado)) {
                 return item;
             }
         }
@@ -76,7 +80,7 @@ public class GerenciadorBiblioteca {
 
     public Item buscarItemPorIssn(String issnBuscado) {
         for (Item item : itens) {
-            if (item.getIssn() == issnBuscado) {
+            if (item.getIssn().equalsIgnoreCase(issnBuscado)) {
                 return item;
             }
         }
@@ -96,10 +100,12 @@ public class GerenciadorBiblioteca {
     public ArrayList<Item> buscarItemPorAutor(String autorBuscado) {
         ArrayList<Item> resultado = new ArrayList<>();
         for (Item item : itens) {
-            for (String autor : item.getAutores()) {
-                if (autor.equalsIgnoreCase(autorBuscado)) {
-                    resultado.add(item);
-                    break;
+            if (item.getAutores() != null && item.getTipo().equalsIgnoreCase("livro")) {
+                for (String autor : item.getAutores()) {
+                    if (autor.equalsIgnoreCase(autorBuscado)) {
+                        resultado.add(item);
+                        break;
+                    }
                 }
             }
         }
@@ -119,7 +125,7 @@ public class GerenciadorBiblioteca {
     public ArrayList<Item> buscarItemPorEditora(String editoraBuscada) {
         ArrayList<Item> resultado = new ArrayList<>();
         for (Item item : itens) {
-            if (item.getTitulo().equalsIgnoreCase(editoraBuscada)) {
+            if (item.getEditora().equalsIgnoreCase(editoraBuscada)) {
                 resultado.add(item);
             }
         }
@@ -129,8 +135,10 @@ public class GerenciadorBiblioteca {
     public ArrayList<Item> buscarItemPorGenero(String generoBuscado) {
         ArrayList<Item> resultado = new ArrayList<>();
         for (Item item : itens) {
-            if (item.getGeneroLiterario().equalsIgnoreCase(generoBuscado)) {
-                resultado.add(item);
+            if (item.getGeneroLiterario() != null) {
+                if (item.getGeneroLiterario().equalsIgnoreCase(generoBuscado)) {
+                    resultado.add(item);
+                }
             }
         }
         return resultado;
@@ -139,7 +147,7 @@ public class GerenciadorBiblioteca {
     public ArrayList<Usuario> buscarUsuarioPorNome(String nomeBuscado) {
         ArrayList<Usuario> resultado = new ArrayList<>();
         for (Usuario usuario : usuarios) {
-            if (usuario.getNome().equalsIgnoreCase(nomeBuscado)) {
+            if (usuario.getNome().toLowerCase().contains(nomeBuscado.toLowerCase())) {
                 resultado.add(usuario);
             }
         }
