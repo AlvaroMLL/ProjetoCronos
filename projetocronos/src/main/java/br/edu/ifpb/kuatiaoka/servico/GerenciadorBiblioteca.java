@@ -224,7 +224,7 @@ public class GerenciadorBiblioteca {
         System.out.println("Erro: item não encontrado ou não está emprestado.");
     }
 
-    // Nesse metodo eu transformei LocalDate em um long usando .toEpochDay()
+    // Nesse método eu transformei LocalDate em um long usando .toEpochDay()
     // (pesquisei LocalDate javadoc no google) para conseguir achar o numero de dias
     // de atraso e calcular a multa.
     public void verificarMulta(Emprestimo emprestimo) {
@@ -246,6 +246,7 @@ public class GerenciadorBiblioteca {
             System.out.println("Multa de R$ " + multaTotal + " aplicada por " + diasAtraso + " dias de atraso.");
         }
     }
+
 
     public boolean temEmprestimoEmAtraso(Usuario usuario) {
         for (Emprestimo e : emprestimos) {

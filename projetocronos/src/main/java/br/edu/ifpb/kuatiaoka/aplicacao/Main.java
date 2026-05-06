@@ -199,7 +199,7 @@ public class Main {
                         case "5":
                             break;
                         default:
-                            System.out.println("Digite um número entre 1 e 5");
+                            System.out.println("ERRO: Digite um número entre 1 e 5");
                             break;
                     }
                     break;
@@ -212,7 +212,7 @@ public class Main {
                     switch (subOpcao) {
                         case "1":
                             System.out.println("--- Criando Novo Usuário ---");
-                            System.out.print("Digite seu nome: ");
+                            System.out.print("Digite seu nome completo: ");
                             String nome = in.nextLine();
                             System.out.print("Digite seu e-mail: ");
                             String email = in.nextLine();
@@ -250,7 +250,7 @@ public class Main {
                         case "2":
                             break;
                         default:
-                            System.out.println("Digite um número entre 1 e 3");
+                            System.out.println("ERRO: Digite um número entre 1 e 3");
                             break;
                     }
                     break;
@@ -286,7 +286,7 @@ public class Main {
                             break;
 
                         default:
-                            System.out.println("Digite um número entre 1 e 3");
+                            System.out.println("ERRO: Digite um número entre 1 e 3");
                     }
                     break;
                 case "4":
@@ -379,7 +379,7 @@ public class Main {
                                 case "6":
                                     break;
                                 default:
-                                    System.out.println("Digite um número entre 1 e 6");
+                                    System.out.println("ERRO: Digite um número entre 1 e 6");
                                     break;
                             }
                             break;
@@ -422,7 +422,7 @@ public class Main {
                                 case "3":
                                     break;
                                 default:
-                                    System.out.println("Digite um número entre 1 e 4");
+                                    System.out.println("ERRO: Digite um número entre 1 e 4");
                                     break;
                             }
                             break;
@@ -463,7 +463,7 @@ public class Main {
                             }
                             break;
                         default:
-                            System.out.println("Digite um número entre 1 e 3");
+                            System.out.println("ERRO: Digite um número entre 1 e 3");
                             break;
                     }
 
@@ -472,7 +472,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Digite um numero entre 1 e 5");
+                    System.out.println("ERRO: Digite um numero entre 1 e 5");
                     break;
             }
         }
